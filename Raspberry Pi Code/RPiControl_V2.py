@@ -1,30 +1,27 @@
-# Required python Libraries
+# ---------------------------------
+# Libraries
+# ---------------------------------
 import serial
 import time
 import math
 # ---------------------------------
 # Setup
 # ---------------------------------
+
 # ---------------------------------
 # Variables
 # ---------------------------------
 # Flags for tracking current tasks
-flags = ["Initialized:False"]
+flags = ["Initialized:False","Light On:False","Ping"]
 # boolean flags for main code
 comsUp = False
-calibrated = False
-wireFound = False
-# position variables
-parallel_pos = [0, 0]  # steps
-perpendicular_pos = [0, 0]  # steps
-angle = 0  # degrees
-# constants
-offsetForHook = 30
-halfCard = 22
-lengthCar = 80
+lightOn = False
+# timing variables
+t1 = 0
+t2 = 0
 # opens serial communication to arduino
 arduino = serial.Serial('/dev/ttyACM0', 9600, timeout=None)
-time.sleep(2)
+time.sleep(2) #sink up time for arduino
 # ---------------------------------
 # Functions for setting up
 # ---------------------------------
@@ -39,6 +36,10 @@ def intializeCom():
 # ---------------------------------
 # Functions used when up and running
 # ---------------------------------
+def flipLightSwitch():
+    """Changes the current state of the light
+    """
+    return boolArduCom(1)
 
 # ---------------------------------
 # helper functions
@@ -53,7 +54,7 @@ def boolArduCom(flag):
     # waits for response from arduino
     while arduino.inWaiting() == 0:
         time.sleep(.1)
-    # formates the data recieved
+    # formates the data recieved and edits the flag array
     flags[flag] = (arduino.readline().rstrip('\r\n'))
     precursor, statement = flags[flag].split(':')
     # looks at the end part of the string sent which will always be a bool
@@ -64,41 +65,11 @@ def boolArduCom(flag):
         logCurrentInfo(flag)
         return False
     else:
-        # TODO: Add in an error message if the arm gets past its range
         return False
-def posArduCom(flag, parallel, perpendicular):
-    """Communicates with the arduino. Sends desired position 
-       data to arduio once the move is complete it updates the
-       position
-       :param flag:
-       :param parallel:
-       :param perpendicular:
-       :return:
-    """
-    dataToSend = "Move To:" + str(parallel) + "," + str(perpendicular)
-    arduino.write(dataToSend)
-    # waits for response from arduino
-    while arduino.inWaiting() == 0:
-        time.sleep(.1)
 
-    # formates the data recieved
-    flags[flag] = (arduino.readline().rstrip('\r\n'))
-    precursor, statement = flags[flag].split(':')
-    # looks at the end part of the string sent which will always be a bool
-    if statement == 'True':
-        parallel_pos[1] = parallel_pos[0]
-        perpendicular_pos[1] = perpendicular_pos[0]
-        parallel_pos[0] = parallel
-        perpendicular_pos[0] = perpendicular
-        logCurrentInfo(flag)
-        return True
-    else:
-        logCurrentInfo(flag)
-        return False
 def pingArdu():
-    """ Pings the arduino for current parallel postion, 
-        perpendicular position, angle of wire
-        Alters:angle and position values
+    """ Pings the arduino for current arduino status
+        Alters:
         :return:
     """
     arduino.write("Ping")
@@ -106,11 +77,10 @@ def pingArdu():
     while arduino.inWaiting() == 0:
         time.sleep(.1)
     dataRequested = (arduino.readline().rstrip('\r\n'))
-    parallel, perpendicular, ang = dataRequested.split(',')
-    parallel_pos[0] = int(parallel)
-    perpendicular_pos[0] = int(perpendicular)
-    angle = int(ang)
+    lightOn = dataRequested.split(',')
+    logCurrentInfo(2)
     return
+
 def logCurrentInfo(flag):
     """Logs data after a communication sequence
     """
@@ -124,11 +94,11 @@ def logCurrentInfo(flag):
 # Main Function
 # ---------------------------------
 # Intialization for communication
-# noinspection PyRedeclaration
 comsUp = intializeCom()
+t1 = time()
 while comsUp:
-    calibrated = calibrateArdu()
-    while comsUp and calibrated:
-        wireFound = scanForWire()
-        if wireFound:
-            setUpForHook()
+    t2 = time()
+    if (t2-t1) >= 60: #exicute every minute
+        lightOn = flipLightSwitch()
+        t1 = time()
+    
