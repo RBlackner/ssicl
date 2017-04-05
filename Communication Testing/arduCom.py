@@ -23,4 +23,5 @@ if s[0] == "Light On:True":
     print "The light is now on"
 elif s[0] == "Light On:False":
     print "The light is now off"
-time.sleep(5)
+time.sleep(10)
+print "The light is now off"
