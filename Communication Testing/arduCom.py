@@ -11,13 +11,7 @@ s = [0]
 time.sleep(2) #may need to increase this time because of setup time
 #----------------------------------------------------------
 #Test Code
-parallel = 300
-perpendicular =200
-
-positionData = str(parallel) + "," + str(perpendicular)
-
-
-arduino.write(positionData)
+arduino.write("Hello Arduino!")
 
 while (arduino.inWaiting() == 0):
     time.sleep(.1)
@@ -25,5 +19,5 @@ while (arduino.inWaiting() == 0):
 s[0] = (arduino.readline().rstrip('\r\n'))
 print s[0]
 
-if s[0] == "Position Recieved":
-    print "String interpreted correctly through serial"
+if s[0] == "Fuck you PI":
+    print "That kind of hurt..."

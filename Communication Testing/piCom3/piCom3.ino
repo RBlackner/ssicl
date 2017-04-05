@@ -11,7 +11,6 @@ void setup() {
 }
 
 void loop() {
-  long positions[2]; // Array of desired stepper positions
   String content[2]={"",""};
   byte incomingByte;
   int i = 0;
@@ -26,21 +25,9 @@ void loop() {
       }
       delay(1);
     }
-          
-    positions[0] = content[0].toInt();
-    positions[1] = content[1].toInt();
 
-  if (content[0] != "" && content[0] !="") {
-    //Serial.println(positions[0]);
-    //Serial.println(positions[1]);
-    Serial.println("Position Recieved");
-  }
-}
-
-void calibrate(){
-  while(!Serial.available()){
-    delay(10);
-    Serial.println("Connected");
+  if (content[0] != "") {
+    Serial.println("Fuck you PI");
   }
 }
 
