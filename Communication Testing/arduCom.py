@@ -11,7 +11,7 @@ s = [0]
 time.sleep(2) #may need to increase this time because of setup time
 #----------------------------------------------------------
 #Test Code
-arduino.write("Hello Arduino!")
+arduino.write("Light On:False")
 
 while (arduino.inWaiting() == 0):
     time.sleep(.1)
@@ -19,5 +19,7 @@ while (arduino.inWaiting() == 0):
 s[0] = (arduino.readline().rstrip('\r\n'))
 print s[0]
 
-if s[0] == "Fuck you PI":
-    print "That kind of hurt..."
+if s[0] == "Light On:True":
+    print "The light is now on"
+elif s[0] == "Light On:False":
+    print "The light is now off"

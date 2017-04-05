@@ -18,13 +18,12 @@ void setup()
 {     
     Serial.begin(9600);
     //communication intialization between RPI and Arduino
-    intialization();
+    //intialization();
     // initialize I/O
     pinMode(lightSwitch, OUTPUT);
 }
 
 void loop(){
-  long positions[2]; // Array of desired stepper positions
   String function;
   String content[3]={"","",""};
   String messageToPi = "";
