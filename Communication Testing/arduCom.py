@@ -65,7 +65,8 @@ comsUp = intializeCom()
 print(flags[0])
 
 while comsUp:
-    arduino.write(flags[1])
+    command = raw_input("Type the following Light On:")
+    arduino.write(command)
 
     while (arduino.inWaiting() == 0):
         time.sleep(.1)
@@ -77,4 +78,3 @@ while comsUp:
         print "The light is now on"
     elif s[0] == "Light On:False":
         print "The light is now off"
-    time.sleep(10)
