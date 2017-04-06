@@ -18,7 +18,7 @@ arduino = serial.Serial('/dev/ttyACM0',9600,timeout = None)
 s = [0]
 #----------------------------------------------------------
 #Links arduino to the raspberry pi
-time.sleep(2) #may need to increase this time because of setup time
+time.sleep(4) #may need to increase this time because of setup time
 #----------------------------------------------------------
 
 flags = ["Initialized:False","Light On:False","Ping"]
@@ -62,7 +62,7 @@ def boolArduCom(flag):
 # ---------------------------------
 # Intialization for communication
 comsUp = intializeCom()
-
+'''
 while comsUp:
     arduino.write(flags[1])
 
@@ -77,3 +77,4 @@ while comsUp:
     elif s[0] == "Light On:False":
         print "The light is now off"
     time.sleep(10)
+'''
