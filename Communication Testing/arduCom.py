@@ -62,7 +62,7 @@ def boolArduCom(flag):
 # ---------------------------------
 # Intialization for communication
 comsUp = intializeCom()
-print(flags(0))
+print(flags[0])
 '''
 while comsUp:
     arduino.write(flags[1])
