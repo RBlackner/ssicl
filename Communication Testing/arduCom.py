@@ -65,7 +65,7 @@ comsUp = intializeCom()
 print(flags[0])
 
 while comsUp:
-    command = raw_input("Type the following Light On:")
+    command = raw_input("Enter Command:(Light On, Ping)\n")
     arduino.write(command)
 
     while (arduino.inWaiting() == 0):
