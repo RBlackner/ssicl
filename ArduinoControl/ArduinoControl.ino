@@ -18,7 +18,7 @@ void setup()
 {     
     Serial.begin(9600);
     //communication intialization between RPI and Arduino
-    //intialization();
+    intialization();
     // initialize I/O
     pinMode(lightSwitch, OUTPUT);
 }
