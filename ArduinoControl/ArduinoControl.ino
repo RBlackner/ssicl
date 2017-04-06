@@ -56,7 +56,7 @@ void loop(){
         Serial.println(messageToPi);
     }
     else if(function == "Ping"){
-      messageToPi = ','+',';
+      messageToPi = "Pinged";
       Serial.println(messageToPi);
     }
   }
