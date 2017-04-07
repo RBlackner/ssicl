@@ -92,7 +92,7 @@ def sendEmail():
     msg.attach(MIMEText(body, 'plain'))
 
     filename = "log.txt"
-    attachment = open("~/ssicl/Communication\ Testing/log.txt", "rb")
+    attachment = open("/home/pi/ssicl/Communication\ Testing/log.txt", "rb")
 
     part = MIMEBase('application', 'octet-stream')
     part.set_payload((attachment).read())
