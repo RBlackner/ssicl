@@ -39,7 +39,7 @@ def intializeCom():
     """
     # inializes the log file for pi
     text_file = open("log.txt", "w")
-    text_file.write("Raspberry Pi Log file for Robotic Arm Control \n\n")
+    text_file.write("Log file for light control \n\n")
     text_file.close()
     return boolArduCom(0)
 
@@ -85,9 +85,9 @@ def sendEmail():
 
     msg['From'] = fromaddr
     msg['To'] = toaddr
-    msg['Subject'] = "SUBJECT OF THE EMAIL"
+    msg['Subject'] = "Log file from ssicl control system"
 
-    body = "TEXT YOU WANT TO SEND"
+    body = ""
 
     msg.attach(MIMEText(body, 'plain'))
 
