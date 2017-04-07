@@ -2,6 +2,7 @@
 #Libraries
 import serial
 import datetime
+import smtplib
 import time
 #----------------------------------------------------------
 #Setup
@@ -72,6 +73,15 @@ def logCurrentInfo():
     text_file.close()
     return
 
+def sendEmail():
+    server = smtplib.SMTP('smtp.gmail.com', 587)
+    server.starttls()
+    server.login("darwinrpi13@gmail.com", "Darwin2017")
+
+    msg = "YOUR MESSAGE!"
+    server.sendmail("darwinrpi13@gmail.com", "reilyblackner@gmail.com", msg)
+    server.quit()
+
 # ---------------------------------
 # Main Function
 # ---------------------------------
@@ -80,7 +90,9 @@ comsUp = intializeCom()
 print(flags[0])
 
 while comsUp:
-    command = raw_input("Enter Command:(Light On, Ping)\n")
+    command = raw_input("Enter Command:(Light On, Ping, Exit)\n")
+    if command == "Exit":
+        break
     arduino.write(command)
 
     while (arduino.inWaiting() == 0):
@@ -90,9 +102,12 @@ while comsUp:
     print s[0]
 
     if s[0] == "Light On:True":
+        flags[1] = s[0]
         print "The light is now on"
     elif s[0] == "Light On:False":
+        flags[1] = s[0]
         print "The light is now off"
     elif s[0] == "Pinged":
         logCurrentInfo()
         print "Info loged"
+sendEmail()
