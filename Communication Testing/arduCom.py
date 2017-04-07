@@ -2,8 +2,12 @@
 #Libraries
 import serial
 import datetime
-import smtplib
 import time
+import smtplib
+from email.MIMEMultipart import MIMEMultipart
+from email.MIMEText import MIMEText
+from email.MIMEBase import MIMEBase
+from email import encoders
 #----------------------------------------------------------
 #Setup
 # ---------------------------------
@@ -74,14 +78,35 @@ def logCurrentInfo():
     return
 
 def sendEmail():
+    fromaddr = "darwinrpi2017@gmail.com"
+    toaddr = "reilyblackner@gmail.com"
+
+    msg = MIMEMultipart()
+
+    msg['From'] = fromaddr
+    msg['To'] = toaddr
+    msg['Subject'] = "SUBJECT OF THE EMAIL"
+
+    body = "TEXT YOU WANT TO SEND"
+
+    msg.attach(MIMEText(body, 'plain'))
+
+    filename = "log.txt"
+    attachment = open("/home/pi/ssicl/Communication\ Testing/log.txt", "rb")
+
+    part = MIMEBase('application', 'octet-stream')
+    part.set_payload((attachment).read())
+    encoders.encode_base64(part)
+    part.add_header('Content-Disposition', "attachment; filename= %s" % filename)
+
+    msg.attach(part)
+
     server = smtplib.SMTP('smtp.gmail.com', 587)
     server.starttls()
-    server.login("darwinrpi13@gmail.com", "Darwin2017")
-
-    msg = "YOUR MESSAGE!"
-    server.sendmail("darwinrpi13@gmail.com", "reilyblackner@gmail.com", msg)
+    server.login(fromaddr, "Darwin2017")
+    text = msg.as_string()
+    server.sendmail(fromaddr, toaddr, text)
     server.quit()
-
 # ---------------------------------
 # Main Function
 # ---------------------------------
