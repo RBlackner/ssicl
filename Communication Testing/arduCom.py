@@ -1,6 +1,7 @@
 #----------------------------------------------------------
 #Libraries
 import serial
+import datetime
 import time
 #----------------------------------------------------------
 #Setup
@@ -31,6 +32,10 @@ lightOn = False
 def intializeCom():
     """Checks serial coms
     """
+    # inializes the log file for pi
+    text_file = open("log.txt", "w")
+    text_file.write("Raspberry Pi Log file for Robotic Arm Control \n\n")
+    text_file.close()
     return boolArduCom(0)
 
 # ---------------------------------
@@ -56,6 +61,16 @@ def boolArduCom(flag):
         return False
     else:
         return False
+    
+def logCurrentInfo():
+    """Logs data after a communication sequence
+    """
+    # logs data to an a pre intialized Log.txt file
+    text_file = open("log.txt", "a")
+    text_file.write(str(datetime.now()) + ": \n")
+    text_file.write(flags[] + " \n\n")
+    text_file.close()
+    return
 
 # ---------------------------------
 # Main Function
@@ -78,3 +93,6 @@ while comsUp:
         print "The light is now on"
     elif s[0] == "Light On:False":
         print "The light is now off"
+    elif s[0] == "Pinged":
+        logCurrentInfo()
+        print "Info loged"
