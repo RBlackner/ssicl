@@ -67,7 +67,7 @@ def logCurrentInfo():
     """
     # logs data to an a pre intialized Log.txt file
     text_file = open("log.txt", "a")
-    text_file.write(str(datetime.now()) + ": \n")
+    text_file.write(str(datetime.datetime.now()) + ": \n")
     text_file.write(flags[0] + " \n\n")
     text_file.close()
     return
