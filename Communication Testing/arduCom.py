@@ -78,7 +78,7 @@ def logCurrentInfo():
     return
 
 def sendEmail():
-    fromaddr = "darwinrpi2017@gmail.com"
+    fromaddr = "darwinrpi13@gmail.com"
     toaddr = "reilyblackner@gmail.com"
 
     msg = MIMEMultipart()
