@@ -73,13 +73,13 @@ def logCurrentInfo():
     # logs data to an a pre intialized Log.txt file
     text_file = open("log.txt", "a")
     text_file.write(str(datetime.datetime.now()) + ": \n")
-    text_file.write(flags[0]+ flags[1] + " \n\n")
+    text_file.write(flags[0]+" "+flags[1]+" \n\n")
     text_file.close()
     return
 
 def sendEmail():
     fromaddr = "darwinrpi13@gmail.com"
-    toaddr = "reilyblackner@gmail.com"
+    toaddr = "reilyblackner1@gmail.com"
 
     msg = MIMEMultipart()
 
@@ -103,7 +103,7 @@ def sendEmail():
 
     server = smtplib.SMTP('smtp.gmail.com', 587)
     server.starttls()
-    server.login(fromaddr, raw_input("Enter Email Password:\n"))
+    server.login(fromaddr, "Darwin2017")
     text = msg.as_string()
     server.sendmail(fromaddr, toaddr, text)
     server.quit()
